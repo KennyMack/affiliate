@@ -17,6 +17,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
+        'type' // 0 - cliente 1 - Atendente 2 - Suporte 3 - Admin
     ];
 
     /**
@@ -27,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isEmployee()
+    {
+        return $this->type > 0;
+    }
 }
