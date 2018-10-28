@@ -25,10 +25,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');*/
 
 Route::group(['prefix' => 'admin/countries', 'middleware' => ['auth', 'admin']], function () {
-    Route::get('/', 'Demograph\CountryController@index');/*
-    Route::get('/create', 'CountryController@newCountry');
-    Route::get('/{id}/change', 'CountryController@changeCountry');
-    Route::post('/save', 'CountryController@saveCountry');
-    Route::put('/{id}/update', 'CountryController@updateCountry');
-    Route::delete('/{id}/remove', 'CountryController@deleteCountry');*/
+    Route::get('/', 'Demograph\CountryController@index');
+    Route::get('/create', 'Demograph\CountryController@create');
+    Route::post('/save', 'Demograph\CountryController@store');
+
+    Route::get('/{id}/edit', 'Demograph\CountryController@edit');
+    Route::put('/{id}/update', 'Demograph\CountryController@update');
+
+    Route::delete('/{id}/remove', 'CountryController@deleteCountry');
 });

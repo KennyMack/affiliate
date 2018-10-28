@@ -18,6 +18,12 @@ return [
     |
     */
 
-    'name' => 'Nome'
+    'name' => 'Nome',
+    'new' => 'Novo',
+    'save' => 'Salvar',
+    'edit' => 'Editar',
+    'delete' => 'Excluir',
+    'cancel' => 'Cancelar',
+    'back' => 'Voltar'
 
 ];

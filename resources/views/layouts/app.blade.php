@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -101,8 +102,87 @@
         </nav>
 
         <main class="py-2">
-            @yield('content')
+
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <breadcrumb-component></breadcrumb-component>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @yield('control')
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    @yield('header')
+                                </div>
+                                <div class="row">
+                                    @if (session('status'))
+                                        <div class="alert alert-success" role="alert">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+                                    @if(Session::has('message_success'))
+                                        <div class="alert alert-success alert-dismissible fade show"
+                                             style="margin: 0 auto"
+                                             role="alert">
+                                            {{ Session::get('message_success') }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @if(Session::has('message_warning'))
+                                        <div class="alert alert-warning alert-dismissible fade show"
+                                             style="margin: 0 auto"
+                                             role="alert">
+                                            {{ Session::get('message_warning') }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                    @endif
+                                    @if(Session::has('message_danger'))
+                                        <div class="alert alert-danger alert-dismissible fade show"
+                                             style="margin: 0 auto"
+                                             role="alert">
+                                            {{ Session::get('message_danger') }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    @endif
+                                    @yield('content')
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </main>
+    </div>
+    <div class="modal" id="confirmModal" style="display: none; z-index: 1050;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" id="confirmMessage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="confirmOk">Ok</button>
+                    <button type="button" class="btn btn-default" id="confirmCancel">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

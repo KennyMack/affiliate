@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Demograph;
 
+use App\Http\Requests\Demograph\CreateCountryFormRequest;
+use App\Http\Requests\Demograph\UpdateCountryFormRequest;
 use App\Models\Demograph\CountryModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 class CountryController extends Controller
 {
@@ -27,7 +30,9 @@ class CountryController extends Controller
      */
     public function create()
     {
-        //
+        return view('Demograph.Country.form', [
+            'url' => 'admin/countries/save'
+        ]);
     }
 
     /**
@@ -36,9 +41,20 @@ class CountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCountryFormRequest $request)
     {
-        //
+        $country = new CountryModel();
+
+        $country = $country->create([
+            'name' => $request->input('name'),
+            'ibge' => $request->input('ibge'),
+            'initials' => $request->input('initials')
+        ]);
+
+
+        \Session::flash('message_success', 'Salvo com sucesso ');
+
+        return Redirect::to('admin/countries/create');
     }
 
     /**
@@ -55,24 +71,39 @@ class CountryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Demograph\CountryModel  $countryModel
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(CountryModel $countryModel)
+    public function edit($id)
     {
-        //
+        $country = CountryModel::findOrFail($id);
+        return view('Demograph.Country.form', [
+            'country' => $country,
+            'url' => 'admin/countries/'.$id.'/update'
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param   $id
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Demograph\CountryModel  $countryModel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CountryModel $countryModel)
+    public function update($id, UpdateCountryFormRequest $request)
     {
-        //
+        $country = CountryModel::findOrFail($id);
+
+        $country->name = $request->input('name');
+        $country->initials = $request->input('initials');
+        $country->ibge = $request->input('ibge');
+        $country->id = $id;
+
+        $country->save();
+
+        \Session::flash('message_success', 'Atualizado com sucesso');
+
+        return Redirect::to('admin/countries/');
     }
 
     /**
