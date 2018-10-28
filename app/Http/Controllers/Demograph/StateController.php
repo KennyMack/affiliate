@@ -24,10 +24,9 @@ class StateController extends Controller
     public function index()
     {
 
-        $states = StateModel::orderBy('created_at', 'desc')->paginate(10);
+        $states = StateModel::orderBy('name', 'desc')->paginate(10);
         return view('Demograph.State.index',[
             'states' => $states,
-            'state' => new StateModel(),
         ]);
     }
 

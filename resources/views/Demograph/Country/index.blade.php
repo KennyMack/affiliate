@@ -63,7 +63,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="4">
+                <td colspan="3">
                     {{ $countries->links() }}
                 </td>
             </tr>

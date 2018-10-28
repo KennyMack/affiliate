@@ -40,6 +40,7 @@
                 urls.push(this.getDescriptionUrl(path));
             },
             getDescriptionUrl: function (path) {
+                let urlOrigin =  window.location.origin + '/admin/';
                 switch (path) {
                     case 'home':
                         return {
@@ -48,13 +49,18 @@
                         };
                     case 'countries':
                         return {
-                            url: window.location.origin + '/admin/' + path,
+                            url: urlOrigin + path,
                             text: 'País'
                         };
                     case 'states':
                         return {
-                            url: window.location.origin + '/admin/' + path,
+                            url: urlOrigin  + path,
                             text: 'Estado'
+                        };
+                    case 'cities':
+                        return {
+                            url: urlOrigin + path,
+                            text: 'Cidade'
                         };
                     case 'create':
                         return {

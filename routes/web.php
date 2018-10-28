@@ -45,3 +45,14 @@ Route::group(['prefix' => 'admin/states', 'middleware' => ['auth', 'admin']], fu
 
     Route::delete('/{id}/destroy', 'Demograph\StateController@destroy');
 });
+
+Route::group(['prefix' => 'admin/cities', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', 'Demograph\CityController@index');
+    Route::get('/create', 'Demograph\CityController@create');
+    Route::post('/save', 'Demograph\CityController@store');
+
+    Route::get('/{id}/edit', 'Demograph\CityController@edit');
+    Route::put('/{id}/update', 'Demograph\CityController@update');
+
+    Route::delete('/{id}/destroy', 'Demograph\CityController@destroy');
+});

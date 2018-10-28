@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('control')
-    <a class="pull-right" href="{{ url('admin/states/create') }}">{{ __('generic.new')  }}</a>
+    <a class="pull-right" href="{{ url('admin/cities/create') }}">{{ __('generic.new')  }}</a>
 @endsection
 
 @section('header')
-    <h4>{{ __('demograph.state_id') }}</h4>
+    <h4>{{ __('demograph.city_id') }}</h4>
 @endsection
 
 @section('content')
@@ -15,37 +15,35 @@
             <tr>
                 <th colspan="2"
                     width="5%">&nbsp;</th>
-                <th>{{ __('demograph.initials') }}</th>
                 <th>{{ __('demograph.country_name') }}</th>
                 <th>{{ __('demograph.ibge') }}</th>
-                <th>{{ __('demograph.country_id') }}</th>
+                <th>{{ __('demograph.state_id') }}</th>
             </tr>
             </thead>
             <tbody>
-            @foreach ($states as $state)
+            @foreach ($cities as $city)
                 <tr>
-                    <td><a class="btn btn-basic btn-icon" href="states/{{ $state->id }}/edit">
+                    <td><a class="btn btn-basic btn-icon" href="states/{{ $city->id }}/edit">
                             <i style="color:#333" class="fas fa-pencil-alt"></i>
                         </a>
                     </td>
                     <td>
                         @csrf
                         <button-delete-component
-                            url="{{ url('admin/states/'.$state->id.'/destroy') }}"
+                            url="{{ url('admin/states/'.$city->id.'/destroy') }}"
                         ></button-delete-component>
                     </td>
-                    <td>{{ $state->initials }}</td>
-                    <td>{{ ucwords($state->name) }}</td>
-                    <td>{{ $state->ibge }}</td>
-                    <td>{{ ucwords($state->country->name) }}</td>
+                    <td>{{ ucwords($city->name) }}</td>
+                    <td>{{ $city->ibge }}</td>
+                    <td>{{ ucwords($city->state->DescriptionInitials()) }}</td>
                 </tr>
 
             @endforeach
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="6">
-                    {{ $states->links() }}
+                <td colspan="5">
+                    {{ $cities->links() }}
                 </td>
             </tr>
             </tfoot>

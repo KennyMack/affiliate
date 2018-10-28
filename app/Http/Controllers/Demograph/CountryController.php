@@ -19,7 +19,7 @@ class CountryController extends Controller
     public function index()
     {
 
-        $countries = CountryModel::orderBy('created_at', 'desc')->paginate(10);
+        $countries = CountryModel::orderBy('name', 'desc')->paginate(10);
         return view('Demograph.Country.index',['countries' => $countries]);
     }
 
