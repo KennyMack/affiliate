@@ -28,9 +28,22 @@
                         </a>
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-icon"
+                        <!--<form style="display: inline;"
+                              method="POST"
+                              action="{{ url('admin/countries/'.$country->id.'/remove') }}">
+                            <input name="_method" type="hidden" value="DELETE">
+
+                            <button class="btn btn-danger btn-xs"
+                                    type="submit"
+                                    name="remove_levels"><span class="glyphicon glyphicon-trash"></span></button>
+                        </form>-->
+                        @csrf
+                        <button-delete-component
+                            url="{{ url('admin/countries/'.$country->id.'/destroy') }}"
+                        ></button-delete-component>
+                        <!--<button class="btn btn-danger btn-icon"
                                 type="submit"
-                                name="remove_levels"><i class="fas fa-trash-alt"></i></button>
+                                name="remove_levels"><i class="fas fa-trash-alt"></i></button>-->
                         <!--<form style="display: inline;"
                               method="POST"
                               action="{{ url('admin/countries/'.$country->id.'/remove') }}">

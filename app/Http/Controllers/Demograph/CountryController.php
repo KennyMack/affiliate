@@ -109,11 +109,27 @@ class CountryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Demograph\CountryModel  $countryModel
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CountryModel $countryModel)
+    public function destroy($id)
     {
-        //
+        try {
+            $cat = CountryModel::findOrFail($id);
+
+            $cat->delete();
+
+            \Session::flash('message_warning', 'Removido com sucesso');
+
+        }
+        catch (\Exception $e){
+            $errorCode = $e->errorInfo[1];
+
+            if($errorCode == 1451){
+                \Session::flash('message_danger', 'Existem estados vinculados a este país');
+            }
+        }
+
+        return Redirect::to('admin/countries');
     }
 }

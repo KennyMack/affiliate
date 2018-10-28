@@ -7,6 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 class StateModel extends Model
 {
     protected $fillable = ['initials','name', 'country_id', 'ibge'];
-    protected $hidden = ['id', 'created_at', 'update_at'];
+    protected $guarded = [
+        'id',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
     protected $table = 'states';
+
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Demograph\CountryModel');
+    }
+
+    public function DescriptionInitials()
+    {
+        return $this->name.' ('.$this->initials.')';
+    }
 }

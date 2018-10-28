@@ -37,7 +37,18 @@
     background-color: #fff;
     border-color: #ccc;
 }
+.help-block {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #e3342f;
+}
 
+select {
+    border: none;
+    border-color: #ffffff;
+    border-radius: 1px!important;
+}
 
 body {
     background-color: #fff;

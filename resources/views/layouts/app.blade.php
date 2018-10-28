@@ -23,6 +23,7 @@
 </head>
 <body>
     <div id="app">
+        <loading-component></loading-component>
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <!--<a class="navbar-brand" href="{{ url('/') }}">
@@ -107,6 +108,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="card">
+                            @if (!Auth::guest())
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-8">
@@ -118,6 +120,7 @@
                                 </div>
 
                             </div>
+                            @endif
 
                             <div class="card-body">
                                 <div class="row">
@@ -167,22 +170,8 @@
                     </div>
                 </div>
             </div>
-
-
-
         </main>
     </div>
-    <div class="modal" id="confirmModal" style="display: none; z-index: 1050;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body" id="confirmMessage">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="confirmOk">Ok</button>
-                    <button type="button" class="btn btn-default" id="confirmCancel">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </body>
 </html>

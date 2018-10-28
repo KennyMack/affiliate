@@ -51,6 +51,11 @@
                             url: window.location.origin + '/admin/' + path,
                             text: 'País'
                         };
+                    case 'states':
+                        return {
+                            url: window.location.origin + '/admin/' + path,
+                            text: 'Estado'
+                        };
                     case 'create':
                         return {
                             url: '',
@@ -85,7 +90,6 @@
             else
                 this.addPath('home');
 
-            console.log(urls);
         } /*,
         ready: function() {
             this.fetchMessages();

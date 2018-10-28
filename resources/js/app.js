@@ -17,7 +17,40 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('breadcrumb-component', require('./components/BreadcrumbComponent.vue'));
+Vue.component('modal-component', require('./components/ModalComponent.vue'));
+Vue.component('button-delete-component', require('./components/ButtonDeleteComponent.vue'));
+Vue.component('loading-component', require('./components/LoadingComponent.vue'));
+Vue.component('select-component', require('./components/SelectComponent.vue'));
+
+Vue.prototype.$GlobalEvent = new Vue();
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data () {
+        return {
+            messageTitle: '',
+            messageText: '',
+            messageType: 0 // 0 - Confirmation 1 - Alert
+        }
+    },
+    methods: {
+        onShowLoad: function(){
+          console.log('load');
+        },
+        showModalConfirm: function (title, message, type) {
+            this.messageTitle = title;
+            this.messageText = message;
+            this.messageType = type;
+
+            $('#ModalMessage').modal('toggle');
+        }
+    }
+});
+
+app.$GlobalEvent.$on('show-load', function (value) {
+    console.log('logged-in');
+    $('#ModalLoading').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
 });
