@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name', 120);
             $table->tinyInteger('isactive')->default(1);
             $table->tinyInteger('type')->default(0); // type: 0 - CONVIDA 1 - PLANO DE AFILIADOS 2 - AMBOS
-            $table->integer('category_id')->unsigned();
+            $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
             $table->index('type');

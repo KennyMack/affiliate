@@ -21,6 +21,7 @@ Vue.component('modal-component', require('./components/ModalComponent.vue'));
 Vue.component('button-delete-component', require('./components/ButtonDeleteComponent.vue'));
 Vue.component('loading-component', require('./components/LoadingComponent.vue'));
 Vue.component('select-component', require('./components/SelectComponent.vue'));
+Vue.component('check-box-component', require('./components/CheckBoxComponent.vue'));
 
 Vue.prototype.$GlobalEvent = new Vue();
 

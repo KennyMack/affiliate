@@ -62,6 +62,11 @@
                             url: urlOrigin + path,
                             text: 'Cidade'
                         };
+                    case 'categories':
+                        return {
+                            url: urlOrigin + path,
+                            text: 'Categorias'
+                        };
                     case 'create':
                         return {
                             url: '',

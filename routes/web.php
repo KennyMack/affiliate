@@ -56,3 +56,14 @@ Route::group(['prefix' => 'admin/cities', 'middleware' => ['auth', 'admin']], fu
 
     Route::delete('/{id}/destroy', 'Demograph\CityController@destroy');
 });
+
+Route::group(['prefix' => 'admin/categories', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', 'Category\CategoryController@index');
+    Route::get('/create', 'Category\CategoryController@create');
+    Route::post('/save', 'Category\CategoryController@store');
+
+    Route::get('/{id}/edit', 'Category\CategoryController@edit');
+    Route::put('/{id}/update', 'Category\CategoryController@update');
+
+    Route::delete('/{id}/destroy', 'Category\CategoryController@destroy');
+});

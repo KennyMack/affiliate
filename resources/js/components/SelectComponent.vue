@@ -30,10 +30,6 @@
             'haserror'
         ],
         mounted() {
-            console.log('this.items');
-            console.log(this.value);
-            console.log(JSON.parse(this.items));
-
         }
     }
 </script>
