@@ -72,3 +72,14 @@ Route::group(['prefix' => 'api/categories'], function () {
     Route::get('/main/{type}', 'Category\CategoryController@main');
     Route::get('/{id}/child/{type}', 'Category\CategoryController@child');
 });
+
+Route::group(['prefix' => 'admin/companies', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', 'Company\CompanyController@index');
+    Route::get('/create', 'Company\CompanyController@create');
+    Route::post('/save', 'Company\CompanyController@store');
+
+    Route::get('/{id}/edit', 'Company\CompanyController@edit');
+    Route::put('/{id}/update', 'Company\CompanyController@update');
+
+    Route::delete('/{id}/destroy', 'Company\CompanyController@destroy');
+});

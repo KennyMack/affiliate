@@ -68,6 +68,9 @@
                                         <li><a class="nav-link" href="{{ url('admin','cities') }}">Cidade</a></li>
                                     </ul>
                                 </li>
+                                <li>
+                                    <a class="text-dark" href="{{ url('admin', 'companies') }}">Empresas</a>
+                                </li>
                             @endif
                         @endif
                     </ul>

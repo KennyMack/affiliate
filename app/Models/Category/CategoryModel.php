@@ -56,4 +56,6 @@ class CategoryModel extends Model
     {
         return CategoryModel::where('category_id', $this->id)->count() > 0;
     }
+
+
 }
