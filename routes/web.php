@@ -67,3 +67,8 @@ Route::group(['prefix' => 'admin/categories', 'middleware' => ['auth', 'admin']]
 
     Route::delete('/{id}/destroy', 'Category\CategoryController@destroy');
 });
+
+Route::group(['prefix' => 'api/categories'], function () {
+    Route::get('/main/{type}', 'Category\CategoryController@main');
+    Route::get('/{id}/child/{type}', 'Category\CategoryController@child');
+});

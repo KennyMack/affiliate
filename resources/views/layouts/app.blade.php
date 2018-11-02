@@ -11,7 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -20,6 +22,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/base.css') }}" rel="stylesheet">
+    <script type="text/javascript">
+        window.BASE_URL = '{{ url('/') }}';
+
+    </script>
 </head>
 <body>
     <div id="app">
@@ -31,7 +37,7 @@
                 </a>-->
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img class="logo-main" src="{{ asset('/assets/img/logo.png') }}" alt="Logotipo">
+                    <img class="logo-main" src="{{ asset('/assets/img/logo_vantangens.png') }}" alt="Logotipo">
                 </a>
                 <button class="navbar-toggler"
                         type="button"
@@ -111,10 +117,10 @@
                             @if (!Auth::guest())
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-6" style="padding-left: 30px; padding-top: 10px">
                                         <breadcrumb-component></breadcrumb-component>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         @yield('control')
                                     </div>
                                 </div>
@@ -172,6 +178,6 @@
             </div>
         </main>
     </div>
-
+    @yield('scripts')
 </body>
 </html>

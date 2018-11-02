@@ -26,6 +26,12 @@
                 if (!isNaN(path))
                     return;
 
+                if (path.indexOf('?'))
+                    path = path.split('?')[0];
+
+                if (path.indexOf('#'))
+                    path = path.split('#')[0];
+
                 if (path.toUpperCase() === 'ADMIN')
                     return;
 

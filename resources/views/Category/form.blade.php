@@ -22,6 +22,7 @@
                 @csrf
                     <div class="container-center">
                         <div class="form-group row">
+
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('category.category_name') }}</label>
 
                             <div class="col-md-5">
@@ -127,3 +128,4 @@
         </div>
     </div>
 @endsection
+

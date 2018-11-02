@@ -7,6 +7,7 @@ use App\Http\Requests\Category\UpdateCategoryFormRequest;
 use App\Models\Category\CategoryModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
@@ -23,13 +24,19 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('txtsearch');
 
+        if (isset($search)) {
 
-        $cat = CategoryModel::orderBy('name', 'desc')->paginate(10);
+            $results = CategoryModel::search($search)->orderBy('name', 'desc');
+        }
+        else
+            $results = CategoryModel::orderBy('name', 'desc');
         return view('Category.index',[
-            'categories' => $cat,
+            'categories' => $results->paginate(10),
+            'txtsearch' => $search
         ]);
     }
 
@@ -147,5 +154,40 @@ class CategoryController extends Controller
         }
 
         return Redirect::to('admin/categories');
+    }
+
+    public function main($type)
+    {
+        return DB::select('select categories.id, categories.name, categories.isactive, 
+                                         categories.type, categories.created_at, updated_at,
+                                         ifnull(tbdetail.contagem, 0) contagem
+                                    from categories
+                               left join (select COUNT(1) contagem, categories.category_id
+                                            from categories
+                                           where categories.isactive = 1
+                                          group by categories.category_id) tbdetail
+                                      on (tbdetail.category_id = categories.id)
+                                   where categories.category_id is null
+                                     and categories.isactive = 1
+                                     and categories.type in (:ptype, 2)', [
+                                        'ptype' => $type]);//CategoryModel::whereNull('category_id')->get();
+    }
+
+    public function child($id, $type)
+    {
+        return DB::select('select categories.id, categories.name, categories.isactive, 
+                                         categories.type, categories.created_at, updated_at,
+                                         ifnull(tbdetail.contagem, 0) contagem
+                                    from categories
+                               left join (select COUNT(1) contagem, categories.category_id
+                                            from categories
+                                           where categories.isactive = 1
+                                          group by categories.category_id) tbdetail
+                                      on (tbdetail.category_id = categories.id)
+                                   where categories.category_id  = :pid
+                                     and categories.isactive = 1
+                                     and categories.type in (:ptype, 2)', [
+                                         'pid' => $id, 'ptype' => $type]);
+        //return CategoryModel::where('category_id', $id)->get();
     }
 }
