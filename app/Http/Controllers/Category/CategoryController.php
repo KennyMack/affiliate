@@ -30,10 +30,10 @@ class CategoryController extends Controller
 
         if (isset($search)) {
 
-            $results = CategoryModel::search($search)->orderBy('name', 'desc');
+            $results = CategoryModel::search($search)->orderBy('name', 'asc');
         }
         else
-            $results = CategoryModel::orderBy('name', 'desc');
+            $results = CategoryModel::orderBy('name', 'asc');
         return view('Category.index',[
             'categories' => $results->paginate(10),
             'txtsearch' => $search

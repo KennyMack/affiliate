@@ -16,11 +16,21 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('txtsearch');
 
-        $countries = CountryModel::orderBy('name', 'desc')->paginate(10);
-        return view('Demograph.Country.index',['countries' => $countries]);
+        if (isset($search)) {
+
+            $results = CountryModel::search($search)->orderBy('name', 'asc');
+        }
+        else
+            $results = CountryModel::orderBy('name', 'asc');
+        //$countries = CountryModel::orderBy('name', 'desc')->paginate(10);
+        return view('Demograph.Country.index',[
+            'countries' => $results->paginate(10),
+            'txtsearch' => $search
+        ]);
     }
 
     /**

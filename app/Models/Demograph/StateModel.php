@@ -2,10 +2,18 @@
 
 namespace App\Models\Demograph;
 
+use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
 
 class StateModel extends Model
 {
+    use Eloquence;
+    protected $searchableColumns = [
+        'ibge' => 20,
+        'initials' => 20,
+        'name' => 20,
+        'id' => 20,
+    ];
     protected $fillable = ['initials','name', 'country_id', 'ibge'];
     protected $guarded = [
         'id',

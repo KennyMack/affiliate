@@ -5,7 +5,13 @@
 @endsection
 
 @section('header')
-    <h4>{{ __('demograph.country_id') }}</h4>
+    <title-page-view-component
+        title="{{ __('demograph.country_id') }}"
+    ></title-page-view-component>
+    <search-page-view-component
+        url="{{ url('admin/countries/') }}"
+        valsearch="{{ isset($txtsearch) ? $txtsearch : '' }}"
+    ></search-page-view-component>
 @endsection
 
 
@@ -23,37 +29,16 @@
             <tbody>
             @foreach ($countries as $country)
                 <tr>
-                    <td><a class="btn btn-basic btn-icon" href="countries/{{ $country->id }}/edit">
-                            <i style="color:#333" class="fas fa-pencil-alt"></i>
-                        </a>
+                    <td>
+                        <button-edit-component
+                            url="{{ url('admin/countries/'.$country->id.'/edit') }}"
+                        ></button-edit-component>
                     </td>
                     <td>
-                        <!--<form style="display: inline;"
-                              method="POST"
-                              action="{{ url('admin/countries/'.$country->id.'/remove') }}">
-                            <input name="_method" type="hidden" value="DELETE">
-
-                            <button class="btn btn-danger btn-xs"
-                                    type="submit"
-                                    name="remove_levels"><span class="glyphicon glyphicon-trash"></span></button>
-                        </form>-->
                         @csrf
                         <button-delete-component
                             url="{{ url('admin/countries/'.$country->id.'/destroy') }}"
                         ></button-delete-component>
-                        <!--<button class="btn btn-danger btn-icon"
-                                type="submit"
-                                name="remove_levels"><i class="fas fa-trash-alt"></i></button>-->
-                        <!--<form style="display: inline;"
-                              method="POST"
-                              action="{{ url('admin/countries/'.$country->id.'/remove') }}">
-                            <input name="_method" type="hidden" value="DELETE">
-                            {{ csrf_field() }}
-                            <button class="btn btn-danger btn-xs"
-                                    type="submit"
-                                    name="remove_levels"><span class="glyphicon glyphicon-trash"></span></button>
-                        </form>-->
-
                     </td>
                     <td>{{ $country->initials }}</td>
                     <td>{{ ucwords($country->name) }}</td>
@@ -63,7 +48,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     {{ $countries->links() }}
                 </td>
             </tr>

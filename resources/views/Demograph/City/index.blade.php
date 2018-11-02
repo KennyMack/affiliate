@@ -5,7 +5,13 @@
 @endsection
 
 @section('header')
-    <h4>{{ __('demograph.city_id') }}</h4>
+    <title-page-view-component
+        title="{{ __('demograph.city_id') }}"
+    ></title-page-view-component>
+    <search-page-view-component
+        url="{{ url('admin/cities/') }}"
+        valsearch="{{ isset($txtsearch) ? $txtsearch : '' }}"
+    ></search-page-view-component>
 @endsection
 
 @section('content')
@@ -23,14 +29,15 @@
             <tbody>
             @foreach ($cities as $city)
                 <tr>
-                    <td><a class="btn btn-basic btn-icon" href="states/{{ $city->id }}/edit">
-                            <i style="color:#333" class="fas fa-pencil-alt"></i>
-                        </a>
+                    <td>
+                        <button-edit-component
+                            url="{{ url('admin/cities/'.$city->id.'/edit') }}"
+                        ></button-edit-component>
                     </td>
                     <td>
                         @csrf
                         <button-delete-component
-                            url="{{ url('admin/states/'.$city->id.'/destroy') }}"
+                            url="{{ url('admin/cities/'.$city->id.'/destroy') }}"
                         ></button-delete-component>
                     </td>
                     <td>{{ ucwords($city->name) }}</td>

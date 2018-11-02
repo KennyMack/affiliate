@@ -21,12 +21,21 @@ class StateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('txtsearch');
 
-        $states = StateModel::orderBy('name', 'desc')->paginate(10);
+        if (isset($search)) {
+
+            $results = StateModel::search($search)->orderBy('name', 'asc');
+        }
+        else
+            $results = StateModel::orderBy('name', 'asc');
+
+        // $states = StateModel::orderBy('name', 'desc')->paginate(10);
         return view('Demograph.State.index',[
-            'states' => $states,
+            'states' => $results->paginate(10),
+            'txtsearch' => $search
         ]);
     }
 

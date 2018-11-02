@@ -27,6 +27,9 @@ Vue.component('check-box-component', require('./components/CheckBoxComponent.vue
 Vue.component('tree-view-component', require('./components/TreeViewComponent.vue'));
 Vue.component('title-page-view-component', require('./components/TitlePageViewComponent.vue'));
 Vue.component('search-page-view-component', require('./components/SearchPageViewComponent.vue'));
+Vue.component('button-edit-component', require('./components/ButtonEditComponent.vue'));
+
+
 
 Vue.prototype.$GlobalEvent = new Vue();
 

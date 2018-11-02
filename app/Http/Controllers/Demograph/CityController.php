@@ -21,12 +21,21 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('txtsearch');
 
-        $cities = CityModel::orderBy('name', 'asc')->paginate(10);
+        if (isset($search)) {
+
+            $results = CityModel::search($search)->orderBy('name', 'asc');
+        }
+        else
+            $results = CityModel::orderBy('name', 'asc');
+
+        //$cities = CityModel::orderBy('name', 'asc')->paginate(10);
         return view('Demograph.City.index',[
-            'cities' => $cities,
+            'cities' =>  $results->paginate(10),
+            'txtsearch' => $search
         ]);
     }
 

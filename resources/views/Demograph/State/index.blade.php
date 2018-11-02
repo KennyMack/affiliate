@@ -5,7 +5,13 @@
 @endsection
 
 @section('header')
-    <h4>{{ __('demograph.state_id') }}</h4>
+    <title-page-view-component
+        title="{{ __('demograph.state_id') }}"
+    ></title-page-view-component>
+    <search-page-view-component
+        url="{{ url('admin/states/') }}"
+        valsearch="{{ isset($txtsearch) ? $txtsearch : '' }}"
+    ></search-page-view-component>
 @endsection
 
 @section('content')
@@ -24,9 +30,10 @@
             <tbody>
             @foreach ($states as $state)
                 <tr>
-                    <td><a class="btn btn-basic btn-icon" href="states/{{ $state->id }}/edit">
-                            <i style="color:#333" class="fas fa-pencil-alt"></i>
-                        </a>
+                    <td>
+                        <button-edit-component
+                            url="{{ url('admin/states/'.$state->id.'/edit') }}"
+                        ></button-edit-component>
                     </td>
                     <td>
                         @csrf
