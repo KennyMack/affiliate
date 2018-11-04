@@ -73,6 +73,11 @@
                             url: urlOrigin + path,
                             text: 'Categorias'
                         };
+                    case 'companies':
+                        return {
+                            url: urlOrigin + path,
+                            text: 'Empresas'
+                        };
                     case 'create':
                         return {
                             url: '',

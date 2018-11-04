@@ -6,14 +6,26 @@ use App\Http\Requests\Companies\CreateCompanyFormRequest;
 use App\Http\Requests\Companies\UpdateCompanyFormRequest;
 use App\Models\Category\CategoryModel;
 use App\Models\Company\CompanyModel;
+use App\Models\Demograph\CountryModel;
+use App\Models\Demograph\StateModel;
+use App\Utils\DateTimeEx;
 use App\Utils\ImageContent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 
 class CompanyController extends Controller
 {
+    public function getStates()
+    {
+        $brasil = CountryModel::where('initials', 'BRA')->first();
+
+        return StateModel::where('country_id', $brasil->id)->get();
+
+    }
+
     public function saveImage(Request $request, CompanyModel $company) {
         if ($request->input('imgdata') != null) {
 
@@ -49,6 +61,19 @@ class CompanyController extends Controller
         }
     }
 
+    public function convertHours(Request $request, CompanyModel $company)
+    {
+        $company->starttime = null;
+        $company->endtime = null;
+        if ($request->input('starttime') != null)
+            $company->starttime = DateTimeEx::horaMinToMin(
+                $request->input('starttime'));
+
+        if ($request->input('endtime') != null)
+            $company->endtime = DateTimeEx::horaMinToMin(
+                $request->input('endtime'));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -60,12 +85,12 @@ class CompanyController extends Controller
 
         if (isset($search)) {
 
-            $results = CompanyModel::search($search)->orderBy('name', 'asc');
+            $results = CompanyModel::search($search)->orderBy('companyname', 'asc')->paginate(5000);
         }
         else
-            $results = CompanyModel::orderBy('name', 'asc');
+            $results = CompanyModel::orderBy('companyname', 'asc')->paginate(10);
         return view('Company.index',[
-            'companies' => $results->paginate(10),
+            'companies' => $results,
             'txtsearch' => $search
         ]);
     }
@@ -78,7 +103,9 @@ class CompanyController extends Controller
     public function create()
     {
         return view('Company.form', [
-            'url' => 'admin/companies/save'
+            'company' => new CompanyModel(),
+            'url' => 'admin/companies/save',
+            'states' => $this->getStates()
         ]);
     }
 
@@ -105,10 +132,11 @@ class CompanyController extends Controller
         $comp->category_id = $request->input('category_id');
         $comp->expertise_id = $request->input('expertise_id');
         $comp->details = $request->input('details');
-        $comp->starttime = $request->input('starttime');
-        $comp->endtime = $request->input('endtime');
+        /*$comp->starttime = $request->input('starttime');
+        $comp->endtime = $request->input('endtime');*/
 
         $this->saveImage($request, $comp);
+        $this->convertHours($request, $comp);
 
         $comp->save();
 
@@ -136,10 +164,11 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        $comp = CategoryModel::findOrFail($id);
+        $comp = CompanyModel::findOrFail($id);
         return view('Company.form', [
             'company' => $comp,
-            'url' => 'admin/companies/'.$id.'/update'
+            'url' => 'admin/companies/'.$id.'/update',
+            'states' => $this->getStates()
         ]);
     }
 
@@ -167,10 +196,11 @@ class CompanyController extends Controller
         $comp->category_id = $request->input('category_id');
         $comp->expertise_id = $request->input('expertise_id');
         $comp->details = $request->input('details');
-        $comp->starttime = $request->input('starttime');
-        $comp->endtime = $request->input('endtime');
+        /*$comp->starttime = $request->input('starttime');
+        $comp->endtime = $request->input('endtime');*/
 
         $this->saveImage($request, $comp);
+        $this->convertHours($request, $comp);
 
         $comp->save();
 

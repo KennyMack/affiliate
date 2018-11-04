@@ -43,11 +43,12 @@ class UpdateCompanyFormRequest extends FormRequest
             'number' => 'max:20',
             'postalnumber' => 'max:15',
             'phone' => 'max:60',
-            'category_id' => 'integer',
-            'expertise_id' => 'integer',
+            'category_type' => 'required|integer|min:0|max:2',
+            'category_id' => 'required|integer|min:0',
+            'expertise_id' => 'required|integer|min:0',
             'details' => 'max:255',
-            'starttime' => 'integer|min:0|max:1439',
-            'endtime' => 'integer|min:0|max:1439'
+            'starttime' => '',
+            'endtime' => ''
 
         ];
     }

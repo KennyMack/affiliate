@@ -52,7 +52,7 @@
             <tfoot>
             <tr>
                 <td colspan="6">
-                    {{ $states->links() }}
+                    {{ $states->appends($_GET)->links() }}
                 </td>
             </tr>
             </tfoot>

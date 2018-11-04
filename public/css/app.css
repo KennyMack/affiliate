@@ -10489,6 +10489,10 @@ a.text-dark:focus {
   text-align: center;
 }
 
+.text-align-right {
+  text-align: right;
+}
+
 .btn-icon {
   padding: 1px 6px;
 }

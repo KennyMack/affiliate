@@ -22,13 +22,13 @@ class CountryController extends Controller
 
         if (isset($search)) {
 
-            $results = CountryModel::search($search)->orderBy('name', 'asc');
+            $results = CountryModel::search($search)->orderBy('name', 'asc')->paginate(5000);
         }
         else
-            $results = CountryModel::orderBy('name', 'asc');
+            $results = CountryModel::orderBy('name', 'asc')->paginate(10);
         //$countries = CountryModel::orderBy('name', 'desc')->paginate(10);
         return view('Demograph.Country.index',[
-            'countries' => $results->paginate(10),
+            'countries' => $results,
             'txtsearch' => $search
         ]);
     }

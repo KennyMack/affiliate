@@ -115,6 +115,10 @@
                             </div>
 
                         </div>
+
+                        <pre>
+                            {{ $errors }}
+                        </pre>
                         <br>
                         <br>
                         <div class="col-md-1 container-center">

@@ -16,6 +16,7 @@ class CityController extends Controller
     {
         return StateModel::all()->sortBy('name', 0);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,14 +28,13 @@ class CityController extends Controller
 
         if (isset($search)) {
 
-            $results = CityModel::search($search)->orderBy('name', 'asc');
-        }
-        else
-            $results = CityModel::orderBy('name', 'asc');
+            $results = CityModel::search($search)->orderBy('name', 'asc')->paginate(5000);
+        } else
+            $results = CityModel::orderBy('name', 'asc')->paginate(10);
 
         //$cities = CityModel::orderBy('name', 'asc')->paginate(10);
-        return view('Demograph.City.index',[
-            'cities' =>  $results->paginate(10),
+        return view('Demograph.City.index', [
+            'cities' => $results,
             'txtsearch' => $search
         ]);
     }
@@ -55,7 +55,7 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateCityFormRequest $request)
@@ -77,7 +77,7 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Demograph\CountryModel  $countryModel
+     * @param  \App\Models\Demograph\CountryModel $countryModel
      * @return \Illuminate\Http\Response
      */
     public function show(StateModel $countryModel)
@@ -97,7 +97,7 @@ class CityController extends Controller
         return view('Demograph.City.form', [
             'city' => $city,
             'states' => $this->getStates(),
-            'url' => 'admin/cities/'.$id.'/update'
+            'url' => 'admin/cities/' . $id . '/update'
         ]);
     }
 
@@ -105,7 +105,7 @@ class CityController extends Controller
      * Update the specified resource in storage.
      *
      * @param   $id
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function update($id, UpdateCityFormRequest $request)
@@ -139,15 +139,19 @@ class CityController extends Controller
 
             \Session::flash('message_warning', 'Removido com sucesso');
 
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             $errorCode = $e->errorInfo[1];
 
-            if($errorCode == 1451){
+            if ($errorCode == 1451) {
                 \Session::flash('message_danger', 'Existem endereços vinculados a esta cidade');
             }
         }
 
         return Redirect::to('admin/cities');
+    }
+
+    public function citiesByStateId($id)
+    {
+        return \Response::json(CityModel::where('state_id', $id)->orderBy('name', 'asc')->get());
     }
 }

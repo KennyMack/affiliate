@@ -46,6 +46,10 @@ Route::group(['prefix' => 'admin/states', 'middleware' => ['auth', 'admin']], fu
     Route::delete('/{id}/destroy', 'Demograph\StateController@destroy');
 });
 
+Route::group(['prefix' => 'api/states'], function () {
+    Route::get('/{id}/cities', 'Demograph\CityController@citiesByStateId');
+});
+
 Route::group(['prefix' => 'admin/cities', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'Demograph\CityController@index');
     Route::get('/create', 'Demograph\CityController@create');
@@ -56,6 +60,8 @@ Route::group(['prefix' => 'admin/cities', 'middleware' => ['auth', 'admin']], fu
 
     Route::delete('/{id}/destroy', 'Demograph\CityController@destroy');
 });
+
+
 
 Route::group(['prefix' => 'admin/categories', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'Category\CategoryController@index');

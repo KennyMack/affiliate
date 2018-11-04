@@ -9,6 +9,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import LiquorTree from 'liquor-tree';
+import VueTextareaAutosize from 'vue-textarea-autosize'
+
+Vue.use(VueTextareaAutosize)
 Vue.use(LiquorTree);
 
 /**
@@ -28,6 +31,7 @@ Vue.component('tree-view-component', require('./components/TreeViewComponent.vue
 Vue.component('title-page-view-component', require('./components/TitlePageViewComponent.vue'));
 Vue.component('search-page-view-component', require('./components/SearchPageViewComponent.vue'));
 Vue.component('button-edit-component', require('./components/ButtonEditComponent.vue'));
+Vue.component('company-form-component', require('./components/Forms/CompanyFormComponent.vue'));
 
 
 
@@ -59,9 +63,7 @@ const app = new Vue({
 });
 
 app.$GlobalEvent.$on('show-load', function (value) {
-    console.log('logged-in');
-    $('#ModalLoading').modal({
-        backdrop: 'static',
-        keyboard: false
+    $('#ModalLoading').css({
+        'display': value? 'block' : 'none'
     });
 });

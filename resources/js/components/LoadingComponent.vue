@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="ModalLoading"
+    <div class="modal-back" id="ModalLoading"
          tabindex="-1" role="dialog"
          aria-labelledby="ModalLoading" >
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
@@ -13,6 +13,21 @@
 </script>
 
 <style scoped>
+    .modal-back {
+        display:none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.7);
+        /*background: rgba(18,18,18, .8);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;*/
+        z-index: 9999;
+    }
+
     .lds-ring {
         display: inline-block;
         position: absolute;

@@ -10,7 +10,7 @@
                        placeholder="Buscar..." aria-label="Search"
                        class="form-control form-input-search"
                        name="txtsearch"
-                       v-model="valsearch"
+                       v-model="txtval"
                        id="txtsearch">
             </div>
             <div class="col-2" >
@@ -23,7 +23,17 @@
 <script>
     export default {
         props: ['url', 'valsearch'],
-        name: "SearchPageViewComponent"
+        name: "SearchPageViewComponent",
+        data() {
+            return {
+                txtval: this.valsearch
+            }
+        },
+        watch: {
+            txtval : function (newVal) {
+                //this.valsearch = newVal;
+            }
+        }
     }
 </script>
 

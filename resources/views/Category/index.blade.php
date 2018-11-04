@@ -58,7 +58,7 @@
             <tfoot>
             <tr>
                 <td colspan="6">
-                    {{ $categories->links() }}
+                    {{ $categories->appends($_GET)->links() }}
                 </td>
             </tr>
             </tfoot>

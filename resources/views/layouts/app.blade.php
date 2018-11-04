@@ -181,6 +181,20 @@
             </div>
         </main>
     </div>
+    <script type="text/javascript">
+        /*$(window).load(function() {
+            console.log('load');
+            $('#ModalLoading').css({
+                'display':  'block'
+            });
+        });
+        $(window).ready(function () {
+            console.log('ready');
+            $('#ModalLoading').css({
+                'display': 'none'
+            });
+        });*/
+    </script>
     @yield('scripts')
 </body>
 </html>

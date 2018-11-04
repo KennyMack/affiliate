@@ -41,16 +41,16 @@
                 <tr>
                     <td>
                         <button-edit-component
-                            url="{{ url('admin/companies/'.$category->id.'/edit') }}"
+                            url="{{ url('admin/companies/'.$company->id.'/edit') }}"
                         ></button-edit-component>
                     </td>
                     <td>
                         @csrf
                         <button-delete-component
-                            url="{{ url('admin/companies/'.$category->id.'/destroy') }}"
+                            url="{{ url('admin/companies/'.$company->id.'/destroy') }}"
                         ></button-delete-component>
                     </td>
-                    <td>{{ ucwords($company->name) }}</td>
+                    <td>{{ ucwords($company->companyname) }}</td>
                     <td>{{ ucwords($company->cnpjcpf) }}</td>
                     <td><input type="checkbox"
                                name="status"
@@ -65,7 +65,7 @@
                     <td>{{ $company->postalnumber }}</td>
                     <td>{{ $company->phone }}</td>
                     <td>{{ isset($company->category) ? $company->category->name : '' }}</td>
-                    <td>{{ isset($company->category) ? $company->category->name : ''}}</td>
+                    <td>{{ isset($company->expertise) ? $company->expertise->name : ''}}</td>
                     <td>{{ $company->details }}</td>
                     <td>{{ $company->getTime() }}</td>
                 </tr>
@@ -75,7 +75,7 @@
             <tfoot>
             <tr>
                 <td colspan="15">
-                    {{ $companies->links() }}
+                    {{ $companies->appends($_GET)->links() }}
                 </td>
             </tr>
             </tfoot>

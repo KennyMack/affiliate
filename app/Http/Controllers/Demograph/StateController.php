@@ -27,14 +27,14 @@ class StateController extends Controller
 
         if (isset($search)) {
 
-            $results = StateModel::search($search)->orderBy('name', 'asc');
+            $results = StateModel::search($search)->orderBy('name', 'asc')->paginate(5000);
         }
         else
-            $results = StateModel::orderBy('name', 'asc');
+            $results = StateModel::orderBy('name', 'asc')->paginate(10);
 
         // $states = StateModel::orderBy('name', 'desc')->paginate(10);
         return view('Demograph.State.index',[
-            'states' => $results->paginate(10),
+            'states' => $results,
             'txtsearch' => $search
         ]);
     }

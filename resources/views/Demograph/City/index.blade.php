@@ -50,7 +50,7 @@
             <tfoot>
             <tr>
                 <td colspan="5">
-                    {{ $cities->links() }}
+                    {{ $cities->appends($_GET)->links() }}
                 </td>
             </tr>
             </tfoot>

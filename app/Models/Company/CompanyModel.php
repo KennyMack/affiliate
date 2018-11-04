@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use App\Utils\DateTimeEx;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyModel extends Model
@@ -35,16 +36,31 @@ class CompanyModel extends Model
         return $this->belongsTo('App\Models\Demograph\CityModel');
     }
 
+    public function getType()
+    {
+        $companyType = $this->category()->type;
+
+        return ($companyType == null) ? 2 : $companyType;
+    }
+
     public function category()
     {
-        return $this->belongsTo('App\Models\Category\CategoryModel');
+        return $this->belongsTo('App\Models\Category\CategoryModel', 'category_id');
+    }
+
+    public function expertise()
+    {
+        return $this->belongsTo('App\Models\Category\CategoryModel', 'expertise_id');
     }
 
     public function getTime(){
 
         if ($this->starttime != null &&
             $this->endtime != null){
-            return $this->starttime . 'às' . $this->endtime;
+
+
+            return DateTimeEx::minToHoraMin($this->starttime) . ' às ' .
+                DateTimeEx::minToHoraMin($this->endtime);
         }
 
         return '';

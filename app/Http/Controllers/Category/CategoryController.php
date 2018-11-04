@@ -30,12 +30,12 @@ class CategoryController extends Controller
 
         if (isset($search)) {
 
-            $results = CategoryModel::search($search)->orderBy('name', 'asc');
+            $results = CategoryModel::search($search)->orderBy('name', 'asc')->paginate(5000);
         }
         else
-            $results = CategoryModel::orderBy('name', 'asc');
+            $results = CategoryModel::orderBy('name', 'asc')->paginate(10);
         return view('Category.index',[
-            'categories' => $results->paginate(10),
+            'categories' => $results,
             'txtsearch' => $search
         ]);
     }
@@ -158,36 +158,17 @@ class CategoryController extends Controller
 
     public function main($type)
     {
-        return DB::select('select categories.id, categories.name, categories.isactive, 
-                                         categories.type, categories.created_at, updated_at,
-                                         ifnull(tbdetail.contagem, 0) contagem
-                                    from categories
-                               left join (select COUNT(1) contagem, categories.category_id
-                                            from categories
-                                           where categories.isactive = 1
-                                          group by categories.category_id) tbdetail
-                                      on (tbdetail.category_id = categories.id)
-                                   where categories.category_id is null
-                                     and categories.isactive = 1
-                                     and categories.type in (:ptype, 2)', [
-                                        'ptype' => $type]);//CategoryModel::whereNull('category_id')->get();
+        $cat = new CategoryModel();
+
+        return
+            \Response::json($cat->mainCategory($type));//CategoryModel::whereNull('category_id')->get();
     }
 
     public function child($id, $type)
     {
-        return DB::select('select categories.id, categories.name, categories.isactive, 
-                                         categories.type, categories.created_at, updated_at,
-                                         ifnull(tbdetail.contagem, 0) contagem
-                                    from categories
-                               left join (select COUNT(1) contagem, categories.category_id
-                                            from categories
-                                           where categories.isactive = 1
-                                          group by categories.category_id) tbdetail
-                                      on (tbdetail.category_id = categories.id)
-                                   where categories.category_id  = :pid
-                                     and categories.isactive = 1
-                                     and categories.type in (:ptype, 2)', [
-                                         'pid' => $id, 'ptype' => $type]);
+        $cat = new CategoryModel();
+        return
+            \Response::json($cat->childCategory($id, $type));
         //return CategoryModel::where('category_id', $id)->get();
     }
 }

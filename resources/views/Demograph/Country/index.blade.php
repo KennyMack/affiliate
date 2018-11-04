@@ -49,7 +49,7 @@
             <tfoot>
             <tr>
                 <td colspan="4">
-                    {{ $countries->links() }}
+                    {{ $countries->appends($_GET)->links() }}
                 </td>
             </tr>
             </tfoot>
