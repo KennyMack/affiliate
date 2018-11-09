@@ -1,5 +1,40 @@
 <template>
     <div class="container-center">
+
+        <div class="container-center">
+            <div class="row">
+                <div class="col col-12">
+                    <div class="box-image">
+
+                        <input type="hidden"
+                               ref="imgdata"
+                               name="imgdata"
+                               id="imgdata"
+                               v-model="imgdata"/>
+
+                        <input type="hidden"
+                               name="imgchanged"
+                               id="imgchanged"
+                               v-model="imgchanged"/>
+
+                        <label class="labelimage" for="inputimage">
+                            <img style="max-width: 200px"
+                                 :src="imgprefill"
+                                 alt="..."
+                                 class="img-thumbnail rounded mx-auto d-block">
+                        </label>
+                        <input class="inputfile"
+                               v-on:change="onSelectedImage"
+                               name="inputimage"
+                               id="inputimage"
+                               type="file" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+
         <div class="form-group row">
 
             <label for="companyname" class="col-md-4 col-form-label text-md-right">{{ labelData['companyname'] }}</label>
@@ -222,7 +257,6 @@
 
         </div>
 
-
         <div class="form-group row">
             <label for="category_id"
                    class="col-md-4 col-form-label text-md-right">{{ labelData['category_id'] }}</label>
@@ -309,7 +343,6 @@
 
         </div>
 
-
         <div class="form-group row">
 
             <label for="details" class="col-md-4 col-form-label text-md-right">{{ labelData['details'] }}</label>
@@ -330,7 +363,6 @@
                 </span>
             </div>
         </div>
-
 
         <div class="form-group row">
             <div class="col-md-4">
@@ -357,13 +389,17 @@
 
 <script>
     import { focus } from 'vue-focus';
-    import { mask } from 'vue-the-mask'
+    import { mask } from 'vue-the-mask';
+    import PictureInput from 'vue-picture-input';
 
     function _get(url, callback) {
         return $.get(window.BASE_URL + url, callback);
     }
 
     export default {
+        components: {
+            PictureInput
+        },
         directives: {
             focus: focus,
             mask: mask
@@ -374,11 +410,14 @@
             'labels',
             'idstate',
             'categorytype',
+            'imagesearch',
+            'imagetemp',
+            'image',
             'errors',
             'old'
         ],
         name: "CompanyFormComponent",
-        data () {
+        data() {
             return {
                 statesData: JSON.parse(this.states),
                 errorsData: JSON.parse(this.errors),
@@ -399,7 +438,7 @@
                 district: '',
                 number: '',
                 postalnumber: '',
-                phone:'',
+                phone: '',
                 // area de ocupação
                 category_id: -1,
                 // especialidade
@@ -411,6 +450,9 @@
                 hasCEP: false,
                 hourstart: '',
                 hourend: '',
+                imgdata: '',
+                imgprefill: '',
+                imgchanged: '0'
             }
         },
         methods: {
@@ -429,7 +471,7 @@
             getLastValue: function (str, def) {
                 return this.getOldValue(str) || this.getFieldValue(str) || def;
             },
-            onTypeCategoryChanged: function(val, show = true) {
+            onTypeCategoryChanged: function (val, show = true) {
                 if (show)
                     this.$GlobalEvent.$emit('show-load', true);
                 let self = this;
@@ -444,13 +486,13 @@
                         if (show)
                             self.$GlobalEvent.$emit('show-load', false);
                     })
-                    .catch(()=>{
+                    .catch(() => {
                         if (show)
                             self.$GlobalEvent.$emit('show-load', false);
                     });
 
             },
-            onMainCategoryChanged:function (val, show = true) {
+            onMainCategoryChanged: function (val, show = true) {
                 if (show)
                     this.$GlobalEvent.$emit('show-load', true);
 
@@ -463,7 +505,7 @@
                         if (show)
                             self.$GlobalEvent.$emit('show-load', false);
                     })
-                    .catch(()=>{
+                    .catch(() => {
                         if (show)
                             self.$GlobalEvent.$emit('show-load', false);
                     });
@@ -478,7 +520,7 @@
                         if (show)
                             self.$GlobalEvent.$emit('show-load', false);
                     })
-                    .catch(()=>{
+                    .catch(() => {
                         if (show)
                             self.$GlobalEvent.$emit('show-load', false);
                     });
@@ -486,7 +528,7 @@
             },
             getCities(id) {
                 return new Promise(function (resolve, reject) {
-                    _get('/api/states/'+id+'/cities', result => resolve(result));
+                    _get('/api/states/' + id + '/cities', result => resolve(result));
                 });
             },
             onCEPChanged(evt) {
@@ -497,20 +539,15 @@
                 return new Promise(function (resolve, reject) {
                     try {
                         $.getJSON("https://viacep.com.br/ws/" + postalnumber + "/json")
-                            .done(function( result ) {
+                            .done(function (result) {
                                 resolve(result)
                             })
-                            .fail(function( jqxhr, textStatus, error ) {
+                            .fail(function (jqxhr, textStatus, error) {
                                 reject()
                             });
-
-                        /*$.getJSON("https://viacep.com.br/ws/" + postalnumber + "/json",
-                            result => resolve(result),
-                            () => reject()
-                        );*/
                     }
                     catch (e) {
-                        console.log('focusedCEP Promise');
+
                     }
                 });
             },
@@ -532,14 +569,41 @@
             },
             timeToInt(t) {
                 var arr = t.split(':');
-                var dec = parseInt((arr[1]/6)*10, 10);
+                var dec = parseInt((arr[1] / 6) * 10, 10);
 
-                return Math.ceil((parseFloat(parseInt(arr[0], 10) + '.' + (dec<10?'0':'') + dec)) * 60);
+                return Math.ceil((parseFloat(parseInt(arr[0], 10) + '.' + (dec < 10 ? '0' : '') + dec)) * 60);
             },
             intToTime(num) {
                 var hours = Math.floor(num / 60);
                 var minutes = num % 60;
                 return hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
+            },
+            readURL: function (input, img, inputData) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        img.attr('src', e.target.result);
+                        inputData.val(e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
+            onSelectedImage: function (e) {
+                if (e.target.files && e.target.files.length > 0 &&
+                    e.target.files[0]) {
+                    var reader = new FileReader();
+                    let self = this;
+                    reader.onload = function (e) {
+
+                        self.imgprefill = e.target.result;
+                        self.imgdata = e.target.result;
+                        self.imgchanged = '1';
+                    };
+
+                    reader.readAsDataURL(e.target.files[0]);
+                }
             }
         },
         created() {
@@ -554,10 +618,24 @@
             this.statesData = JSON.stringify(ret);
 
 
-            this.companyname =  this.getLastValue('companyname', '');
+
+            if (this.imagetemp != null && this.imagetemp != '') {
+                this.imgdata = this.imagetemp;
+                this.imgchanged = '1';
+            }
+            else if (this.imagetemp == null || this.imagetemp == '' &&
+                this.image != null && this.image != '')
+                this.imgdata = this.image;
+
+            if (this.imgdata != null && this.imgdata != '')
+                this.imgprefill = this.imgdata;
+            else
+                this.imgprefill = this.imagesearch;
+
+            this.companyname = this.getLastValue('companyname', '');
             this.cnpjcpf = this.getLastValue('cnpjcpf', '');
             this.status = this.getLastValue('status', 1);
-            this.state_id = this.getLastValue('state_id', -1) ;
+            this.state_id = this.getLastValue('state_id', -1);
             if (this.state_id == -1 || this.state_id == null) {
                 this.state_id = this.id_state;
             }
@@ -606,7 +684,6 @@
 
             this.hasCEP = true;
             let timerId = window.setTimeout(() => {
-                console.log('eee');
                 //this.$GlobalEvent.$emit('show-load', false);
                 clearTimeout(timerId);
             }, 3000);
@@ -639,8 +716,7 @@
                             }
 
                             $('#city_id').focus();
-                            if (findState)
-                            {
+                            if (findState) {
                                 self.$GlobalEvent.$emit('show-load', true);
                                 let timerId = window.setTimeout(() => {
                                     let citiesItens = JSON.parse(self.citiesData);
@@ -663,7 +739,7 @@
                                 self.$GlobalEvent.$emit('show-load', false);
 
                         })
-                        .catch(()=> {
+                        .catch(() => {
                             $('#state_id').focus();
                             self.state_id = -1;
                             self.city_id = -1;
@@ -684,5 +760,23 @@
 </script>
 
 <style scoped>
-
+    .box-image {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    .labelimage {
+        cursor: pointer;
+        margin: 0 auto;
+        display: inline;
+    }
+    .inputfile {
+        display: none!important;
+    }
+    .picture-inner{
+        border: none;
+    }
+    .picture-preview {
+        background: rgba(200,200,200,.25);
+        border: none;
+    }
 </style>

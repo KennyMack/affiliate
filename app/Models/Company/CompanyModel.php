@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use App\Utils\DateTimeEx;
+use App\Utils\ImageContent;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyModel extends Model
@@ -64,6 +65,11 @@ class CompanyModel extends Model
         }
 
         return '';
+    }
+
+    public function getImageValue()
+    {
+        return ($this->logopath != '') ? ImageContent::getImageBase64($this->logopath) : null;
     }
 
 }

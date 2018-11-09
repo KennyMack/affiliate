@@ -26,10 +26,10 @@ class CreateCompanyFormRequest extends FormRequest
      */
     public function rules()
     {
-        if (Request::file('image') != null)
+        /*if (Request::file('image') != null)
             \Session::flash('image', ImageContent::imageToBase64(Request::file('image'), Request::file('image')->getMimeType()));
         else if (Request::input('imgdata'))
-            \Session::flash('image', Request::input('imgdata'));
+            \Session::flash('image', Request::input('imgdata'));*/
 
 
         return [

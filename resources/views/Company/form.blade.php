@@ -40,13 +40,16 @@
                             "company_period": "{{ __('company.company_period')  }}",
                             "category_type": "{{ __('category.category_type') }}"
                         }'
+                        imagesearch="{{ asset('/assets/img/change-image.png') }}"
+                        imagetemp="{{ old('imgdata') }}"
+                        image="{{ $company->getImageValue() }}"
                         company="{{ $company }}"
-                        idstate="{{ isset($company->city) ? $company->city->state_id : -1}}"
-                        categorytype="{{ isset($company->category) ? $company->category->type : -1  }}"
+                        idstate="{{ isset($company->city) ? $company->city->state_id : -1 }}"
+                        categorytype="{{ isset($company->category) ? $company->category->type : -1 }}"
                         states="{{ $states }}"
-                        errors="{{ $errors  }}"
-                        old="{{ json_encode(Session::getOldInput())  }}"
-                    ></company-form-component>
+                        errors="{{ $errors }}"
+                        old="{{ json_encode(Session::getOldInput()) }}">
+                    </company-form-component>
 
                     <br>
                     <br>

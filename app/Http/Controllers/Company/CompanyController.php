@@ -27,7 +27,9 @@ class CompanyController extends Controller
     }
 
     public function saveImage(Request $request, CompanyModel $company) {
-        if ($request->input('imgdata') != null) {
+        //dd($request);
+        if ($request->input('imgdata') != null &&
+            $request->input('imgchanged') == '1') {
 
             if ($company->logopath == '') {
                 $expfolder = explode('\\', $company->logopath);
@@ -134,7 +136,8 @@ class CompanyController extends Controller
         $comp->details = $request->input('details');
         /*$comp->starttime = $request->input('starttime');
         $comp->endtime = $request->input('endtime');*/
-
+        $comp->logopath = null;
+        $comp->logourl = null;
         $this->saveImage($request, $comp);
         $this->convertHours($request, $comp);
 
