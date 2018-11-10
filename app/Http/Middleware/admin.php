@@ -16,7 +16,7 @@ class admin
      */
     public function handle($request, Closure $next)
     {
-        if ( Auth::check() && Auth::user()->isEmployee() )
+        if (Auth::check() && Auth::user()->isEmployee() )
         {
             return $next($request);
         }
