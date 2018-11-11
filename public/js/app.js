@@ -48005,6 +48005,11 @@ var urls = [];
                         url: urlOrigin + path,
                         text: 'Empresas'
                     };
+                case 'users':
+                    return {
+                        url: urlOrigin + path,
+                        text: 'Usuários'
+                    };
                 case 'create':
                     return {
                         url: '',

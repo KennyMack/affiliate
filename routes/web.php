@@ -24,6 +24,18 @@ Auth::routes();
 /*
 Route::get('/home', 'HomeController@index')->name('home');*/
 
+Route::group(['prefix' => 'admin/users', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', 'Auth\UsersController@index');
+    Route::get('/create', 'Auth\UsersController@create');
+    Route::post('/save', 'Auth\UsersController@store');
+
+    Route::get('/{id}/edit', 'Auth\UsersController@edit');
+    Route::put('/{id}/update', 'Auth\UsersController@update');
+
+    Route::delete('/{id}/destroy', 'Auth\UsersController@destroy');
+});
+
+
 Route::group(['prefix' => 'admin/countries', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'Demograph\CountryController@index');
     Route::get('/create', 'Demograph\CountryController@create');

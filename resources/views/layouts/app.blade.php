@@ -62,6 +62,7 @@
                                     </a>
 
                                     <ul class="dropdown-menu" role="menu">
+                                        <li><a class="nav-link" href="{{ url('admin', 'users') }}">Usuários</a></li>
                                         <li><a class="nav-link" href="{{ url('admin', 'categories') }}">Categorias</a></li>
                                         <li><a class="nav-link" href="{{ url('admin','countries') }}">Pais</a></li>
                                         <li><a class="nav-link" href="{{ url('admin','states') }}">Estado</a></li>

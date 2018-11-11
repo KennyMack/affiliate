@@ -12,6 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
+    'user_id' => 'Usuário',
     'email_address' => 'E-mail',
     'password' => 'Senha',
     'remember_me' => 'Lembrar',
@@ -23,5 +24,8 @@ return [
     'send_pass_link' => 'Enviar link de recuperação',
     'failed' => 'As informações de login não foram encontradas.',
     'throttle' => 'Muitas tentativas de login. Por favor tente novamente em :seconds segundos.',
+    'name'=> 'Nome do usuário',
+    'type' => 'Tipo Usuário',
+    'isactive' => 'Ativo',
 
 ];

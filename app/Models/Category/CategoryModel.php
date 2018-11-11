@@ -16,10 +16,7 @@ class CategoryModel extends Model
         'category_name' => 'category.name',
     ];
     protected $searchableColumns = [
-        //'catname' => 20,
-        //'getTypeDescription' => 20,
         'name' => 20,
-        //'desctype' => 20,
         'id' => 20,
     ];
 
